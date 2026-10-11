@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: 7star-license-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    disk:
+      name: license-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: LICENSE_DB_PATH
+        value: /var/data/licenses.db
